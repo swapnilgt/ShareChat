@@ -43,11 +43,23 @@ public class HomeScreenPresenter implements HomeScreenContract.UserActionListene
 
     @Override
     public void refreshItems() {
+        if(isSubscribedToView) {
+            mView.setProgressIndicator(true);
+        }
         mRepository.refreshFeedsFromRemote(new FeedItemsRepository.LoadFeedsCallback() {
             @Override
             public void onLoaded(List<FeedItem> itemList) {
                 if(isSubscribedToView && itemList != null) {
+
+                    // adding load more to the list ..
+                    final FeedItem f = new FeedItem();
+                    f.setType(FeedItem.TYPE_LOAD_MORE);
+
+                    itemList.add(f);
+
                     mView.showItems(itemList);
+
+                    mView.setProgressIndicator(false);
                 }
                 // TODO - Update this list in the Local storage in SQL ..
             }
@@ -55,7 +67,7 @@ public class HomeScreenPresenter implements HomeScreenContract.UserActionListene
     }
 
     @Override
-    public void openUserProfile(String userId) {
+    public void openFeedItem(FeedItem item) {
 
     }
 }

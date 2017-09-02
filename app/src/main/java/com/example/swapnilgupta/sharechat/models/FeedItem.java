@@ -8,10 +8,16 @@ public class FeedItem {
 
     public static final String TYPE_PROFILE = "profile";
     public static final String TYPE_IMAGE = "image";
+    public static final String TYPE_LOAD_MORE = "load_more";
+
+    public static final int TYPE_PROFILE_INT = 0;
+    public static final int TYPE_IMAGE_INT = 1;
+    public static final int TYPE_LOAD_MORE_INT = 2;
 
     private String type;
     private int id;
     private String author_name;
+
 
     private String url;
     private long postedOn;

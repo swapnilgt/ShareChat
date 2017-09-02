@@ -27,6 +27,6 @@ interface HomeScreenContract {
 
         void refreshItems();
 
-        void openUserProfile(String userId);
+        void openFeedItem(FeedItem item);
     }
 }

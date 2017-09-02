@@ -1,7 +1,12 @@
 package com.example.swapnilgupta.sharechat.homescreen;
 
+import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
 import com.example.swapnilgupta.sharechat.R;
@@ -9,14 +14,17 @@ import com.example.swapnilgupta.sharechat.api.FeedsServiceApiImpl;
 import com.example.swapnilgupta.sharechat.data.FeedItemsRepoImpl;
 import com.example.swapnilgupta.sharechat.models.FeedItem;
 
+import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class HomeScreenActivity extends AppCompatActivity implements HomeScreenContract.View {
 
-    TextView textView;
+    //TextView textView;
+    RecyclerView recyclerView;
+    SwipeRefreshLayout refreshLayout;
+    Toolbar toolbar;
+
+    private HomeScreenAdapter mAdapter;
 
     private static final String TAG = "HomeScreenActivity";
     private HomeScreenContract.UserActionListener mUserActionListener;
@@ -26,8 +34,38 @@ public class HomeScreenActivity extends AppCompatActivity implements HomeScreenC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
 
-        textView = (TextView) findViewById(R.id.textView);
+        // initializing the adapter ...
+        mAdapter = new HomeScreenAdapter(new ArrayList<FeedItem>(), mItemListener);
 
+        // setting up the view ...
+        recyclerView = (RecyclerView) findViewById(R.id.rvFeed);
+        refreshLayout = (SwipeRefreshLayout) findViewById(R.id.srlFeed);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        // setting the toolbar ..
+        setSupportActionBar(toolbar);
+
+        // setting swipe refresh layout ..
+        refreshLayout.setColorSchemeColors(
+                ContextCompat.getColor(this, R.color.colorPrimary),
+                ContextCompat.getColor(this, R.color.colorAccent),
+                ContextCompat.getColor(this, R.color.colorPrimaryDark));
+
+        // setting up the recyclerview ..
+        recyclerView.setAdapter(mAdapter);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,
+                false));
+
+        // setting up the swipe refresh layout ..
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mUserActionListener.refreshItems();
+            }
+        });
+
+        // instantiating the presented for the view ..
         mUserActionListener = new HomeScreenPresenter(this,
                 new FeedItemsRepoImpl(new FeedsServiceApiImpl()));
 
@@ -48,11 +86,22 @@ public class HomeScreenActivity extends AppCompatActivity implements HomeScreenC
 
     @Override
     public void setProgressIndicator(boolean active) {
-
+        refreshLayout.setRefreshing(active);
     }
 
     @Override
     public void showItems(List<FeedItem> items) {
-        textView.setText(items.toString());
+        mAdapter.setItems(items);
+    }
+
+    FeedsItemListener mItemListener = new FeedsItemListener() {
+        @Override
+        public void onFeedClicked(FeedItem item) {
+            mUserActionListener.openFeedItem(item);
+        }
+    };
+
+    public interface FeedsItemListener {
+        void onFeedClicked(FeedItem item);
     }
 }
