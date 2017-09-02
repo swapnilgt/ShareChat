@@ -4,6 +4,7 @@ import com.example.swapnilgupta.sharechat.api.FeedsServiceApi;
 import com.example.swapnilgupta.sharechat.models.FeedItem;
 import com.example.swapnilgupta.sharechat.retrofit.models.EnvelopeFetchFeeds;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,8 +22,25 @@ public class FeedItemsRepoImpl implements FeedItemsRepository {
     }
 
     @Override
-    public void loadMoreFeedsFromRemote(LoadFeedsCallback callback) {
+    public void loadMoreFeedsFromRemote(final LoadFeedsCallback callback) {
+        int offset = 0;
+        if(items != null) {
+            offset = items.size();
+        }
+        mFeedsServiceApi.loadFeed(offset, new FeedsServiceApi.LoadFeedsServiceCallback() {
+            @Override
+            public void onLoaded(EnvelopeFetchFeeds eff) {
+                if(eff != null) {
+                    if(items != null) {
+                        items.addAll(eff.getData());
+                    } else {
+                        items = eff.getData();
+                    }
+                }
 
+                callback.onLoaded(new ArrayList<>(items));
+            }
+        });
     }
 
     @Override
@@ -31,10 +49,11 @@ public class FeedItemsRepoImpl implements FeedItemsRepository {
             @Override
             public void onLoaded(EnvelopeFetchFeeds eff) {
                 if(eff != null) {
-                    callback.onLoaded(eff.getData());
-                } else {
-                    callback.onLoaded(null);
+                    // Updating the list from the repo ..
+                    items = eff.getData();
                 }
+
+                callback.onLoaded(new ArrayList<>(items));
             }
         });
     }

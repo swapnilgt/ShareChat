@@ -14,6 +14,7 @@ import com.example.swapnilgupta.sharechat.models.FeedItem;
 
 import java.util.List;
 
+import static android.support.v7.widget.RecyclerView.NO_POSITION;
 import static com.example.swapnilgupta.sharechat.models.FeedItem.TYPE_IMAGE;
 import static com.example.swapnilgupta.sharechat.models.FeedItem.TYPE_IMAGE_INT;
 import static com.example.swapnilgupta.sharechat.models.FeedItem.TYPE_LOAD_MORE;
@@ -91,7 +92,20 @@ public class HomeScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final int pos = holder.getAdapterPosition();
+                if(pos == NO_POSITION) {
+                    return;
+                }
+                if(itemListener != null) {
+                    itemListener.onFeedClicked(items.get(pos));
+                }
+            }
+        });
+
         switch (items.get(position).getType()) {
             case TYPE_PROFILE:
                 bindProfile((ProfileViewHolder) holder, position);

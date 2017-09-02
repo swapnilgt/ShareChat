@@ -27,6 +27,6 @@ interface HomeScreenContract {
 
         void refreshItems();
 
-        void openFeedItem(FeedItem item);
+        void openClickFeedItem(FeedItem item);
     }
 }

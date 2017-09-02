@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.widget.TextView;
 
 import com.example.swapnilgupta.sharechat.R;
 import com.example.swapnilgupta.sharechat.api.FeedsServiceApiImpl;
@@ -97,7 +96,7 @@ public class HomeScreenActivity extends AppCompatActivity implements HomeScreenC
     FeedsItemListener mItemListener = new FeedsItemListener() {
         @Override
         public void onFeedClicked(FeedItem item) {
-            mUserActionListener.openFeedItem(item);
+            mUserActionListener.openClickFeedItem(item);
         }
     };
 
