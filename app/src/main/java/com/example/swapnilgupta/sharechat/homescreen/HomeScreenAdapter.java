@@ -7,10 +7,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.swapnilgupta.sharechat.R;
 import com.example.swapnilgupta.sharechat.models.FeedItem;
+import com.example.swapnilgupta.sharechat.utils.Utils;
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -47,21 +51,30 @@ public class HomeScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     private class ProfileViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tempText;
+        TextView name;
+        TextView dob;
+        TextView gender;
 
         public ProfileViewHolder(View itemView) {
             super(itemView);
-            tempText = (TextView) itemView.findViewById(R.id.tvTemp);
+            name = (TextView) itemView.findViewById(R.id.tvName);
+            dob = (TextView) itemView.findViewById(R.id.tvDob);
+            gender = (TextView) itemView.findViewById(R.id.tvGender);
         }
     }
 
     private class ImageViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tempText;
+        //TextView tempText;
+        TextView name;
+        TextView date;
+        ImageView image;
 
         public ImageViewHolder(View itemView) {
             super(itemView);
-            tempText = (TextView) itemView.findViewById(R.id.tvTemp);
+            name = (TextView) itemView.findViewById(R.id.tvName);
+            date = (TextView) itemView.findViewById(R.id.tvDate);
+            image = (ImageView) itemView.findViewById(R.id.ivImage);
         }
     }
 
@@ -117,11 +130,14 @@ public class HomeScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     private void bindProfile(ProfileViewHolder holder, int position) {
-        holder.tempText.setText(items.get(position).toString());
+        holder.name.setText("Name: " + items.get(position).getAuthor_name());
+        holder.dob.setText("Dob: " + items.get(position).getAuthor_dob());
+        holder.gender.setText("Gender: " + items.get(position).getAuthor_gender());
     }
 
     private void bindImage(ImageViewHolder holder, int position) {
-        holder.tempText.setText(items.get(position).toString());
+        holder.name.setText(items.get(position).getAuthor_name());
+        holder.date.setText(Utils.getDDMMYYYYDate(items.get(position).getPostedOn()));
     }
 
     @Override

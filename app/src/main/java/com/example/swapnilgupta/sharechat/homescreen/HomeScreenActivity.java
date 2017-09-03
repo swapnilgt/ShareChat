@@ -43,6 +43,7 @@ public class HomeScreenActivity extends AppCompatActivity implements HomeScreenC
 
         // setting the toolbar ..
         setSupportActionBar(toolbar);
+        setTitle("");
 
         // setting swipe refresh layout ..
         refreshLayout.setColorSchemeColors(
