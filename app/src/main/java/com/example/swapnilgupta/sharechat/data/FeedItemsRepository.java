@@ -26,4 +26,10 @@ public interface FeedItemsRepository {
     }
 
     void updateFeed(FeedItem item, UpdateFeedsCallback callback);
+
+    interface LoadFeedCallback {
+        void onLoaded(FeedItem item);
+    }
+
+    void loadFeed(int id, LoadFeedCallback callback);
 }

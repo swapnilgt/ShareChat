@@ -67,7 +67,7 @@ public class HomeScreenActivity extends AppCompatActivity implements HomeScreenC
 
         // instantiating the presented for the view ..
         mUserActionListener = new HomeScreenPresenter(this,
-                new FeedItemsRepoImpl(new FeedsServiceApiImpl()));
+                FeedItemsRepoImpl.getInstance(new FeedsServiceApiImpl()));
 
         mUserActionListener.subscribe();
         mUserActionListener.loadItems();
@@ -93,7 +93,7 @@ public class HomeScreenActivity extends AppCompatActivity implements HomeScreenC
     FeedsItemListener mItemListener = new FeedsItemListener() {
         @Override
         public void onFeedClicked(FeedItem item) {
-            mUserActionListener.openClickFeedItem(item);
+            mUserActionListener.openClickFeedItem(item, HomeScreenActivity.this);
         }
     };
 

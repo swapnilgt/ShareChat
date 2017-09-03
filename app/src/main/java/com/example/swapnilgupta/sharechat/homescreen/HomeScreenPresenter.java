@@ -1,7 +1,11 @@
 package com.example.swapnilgupta.sharechat.homescreen;
 
+import android.content.Context;
+import android.content.Intent;
+
 import com.example.swapnilgupta.sharechat.data.FeedItemsRepository;
 import com.example.swapnilgupta.sharechat.models.FeedItem;
+import com.example.swapnilgupta.sharechat.profiledetails.ProfileDetailsActivity;
 
 import java.util.List;
 
@@ -107,10 +111,15 @@ public class HomeScreenPresenter implements HomeScreenContract.UserActionListene
     }
 
     @Override
-    public void openClickFeedItem(FeedItem item) {
+    public void openClickFeedItem(FeedItem item, Context context) {
         switch (item.getType()) {
             case FeedItem.TYPE_LOAD_MORE:
                 loadMoreItems();
+                break;
+            case FeedItem.TYPE_PROFILE:
+                final Intent i = new Intent(context, ProfileDetailsActivity.class);
+                i.putExtra(ProfileDetailsActivity.ARG_FEED_ID, item.getId());
+                context.startActivity(i);
                 break;
         }
     }

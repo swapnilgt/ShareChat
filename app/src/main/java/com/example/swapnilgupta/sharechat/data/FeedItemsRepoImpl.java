@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.example.swapnilgupta.sharechat.api.FeedsServiceApi;
 import com.example.swapnilgupta.sharechat.models.FeedItem;
+import com.example.swapnilgupta.sharechat.profiledetails.ProfileDetailsContract;
 import com.example.swapnilgupta.sharechat.retrofit.models.EnvelopeFetchFeeds;
 import com.example.swapnilgupta.sharechat.sqlite.SQLUtils;
 
@@ -20,7 +21,16 @@ public class FeedItemsRepoImpl implements FeedItemsRepository {
 
     private List<FeedItem> items;
 
-    public FeedItemsRepoImpl(FeedsServiceApi mFeedsServiceApi) {
+    public static FeedItemsRepository INSTANCE;
+
+    public static FeedItemsRepository getInstance(FeedsServiceApi mFeedsServiceApi) {
+        if(INSTANCE == null) {
+            INSTANCE = new FeedItemsRepoImpl(mFeedsServiceApi);
+        }
+        return INSTANCE;
+    }
+
+    private FeedItemsRepoImpl(FeedsServiceApi mFeedsServiceApi) {
         this.mFeedsServiceApi = mFeedsServiceApi;
     }
 
@@ -99,7 +109,22 @@ public class FeedItemsRepoImpl implements FeedItemsRepository {
     }
 
     @Override
-    public void updateFeed(FeedItem item, UpdateFeedsCallback callback) {
+    public void loadFeed(int id, LoadFeedCallback callback) {
+        for(FeedItem i: items) {
+            if(i.getId() == id) {
+                callback.onLoaded(i);
+                return;
+            }
+        }
+    }
 
+    @Override
+    public void updateFeed(FeedItem item, final UpdateFeedsCallback callback) {
+        mFeedsServiceApi.updateFeedItem(item, new FeedsServiceApi.UpdateFeedServiceCallback() {
+            @Override
+            public void onUpdate(boolean success, FeedItem item) {
+                callback.onUpdateFeed(success, item);
+            }
+        });
     }
 }

@@ -1,5 +1,7 @@
 package com.example.swapnilgupta.sharechat.homescreen;
 
+import android.content.Context;
+
 import com.example.swapnilgupta.sharechat.basecontract.BaseContract;
 import com.example.swapnilgupta.sharechat.models.FeedItem;
 
@@ -27,6 +29,6 @@ interface HomeScreenContract {
 
         void refreshItems();
 
-        void openClickFeedItem(FeedItem item);
+        void openClickFeedItem(FeedItem item, Context context);
     }
 }

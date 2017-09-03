@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.example.swapnilgupta.sharechat.profiledetails.ProfileDetailsActivity"
+    tools:showIn="@layout/activity_profile_details">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:padding="10dp"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:weightSum="100"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="Contact"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                android:layout_width="0dp"
+                android:layout_weight="30"
+                android:gravity="right"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/etContact"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="16sp"
+                android:layout_width="0dp"
+                android:layout_weight="70"
+                android:gravity="left"
+                android:layout_height="wrap_content" />
+
+
+        </LinearLayout>
+
+    <LinearLayout
+        android:weightSum="100"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="Dob"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:layout_width="0dp"
+            android:layout_weight="30"
+            android:gravity="right"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/etDob"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="16sp"
+            android:layout_width="0dp"
+            android:layout_weight="70"
+            android:gravity="left"
+            android:layout_height="wrap_content" />
+        </LinearLayout>
+
+    <LinearLayout
+        android:weightSum="100"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="Status"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:layout_width="0dp"
+            android:layout_weight="30"
+            android:gravity="right"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/etStatus"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="16sp"
+            android:layout_width="0dp"
+            android:layout_weight="70"
+            android:gravity="left"
+            android:layout_height="wrap_content" />
+        </LinearLayout>
+
+    <LinearLayout
+        android:weightSum="100"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="Gender"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:layout_width="0dp"
+            android:layout_weight="30"
+            android:gravity="right"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/etGender"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="16sp"
+            android:layout_width="0dp"
+            android:layout_weight="70"
+            android:gravity="left"
+            android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/tvSave"
+            android:text="Save"
+            android:textAllCaps="false"
+            android:background="@color/colorAccent"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>
