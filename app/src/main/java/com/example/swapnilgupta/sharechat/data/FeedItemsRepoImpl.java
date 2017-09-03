@@ -1,8 +1,11 @@
 package com.example.swapnilgupta.sharechat.data;
 
+import android.util.Log;
+
 import com.example.swapnilgupta.sharechat.api.FeedsServiceApi;
 import com.example.swapnilgupta.sharechat.models.FeedItem;
 import com.example.swapnilgupta.sharechat.retrofit.models.EnvelopeFetchFeeds;
+import com.example.swapnilgupta.sharechat.sqlite.SQLUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +32,7 @@ public class FeedItemsRepoImpl implements FeedItemsRepository {
         }
         mFeedsServiceApi.loadFeed(offset, new FeedsServiceApi.LoadFeedsServiceCallback() {
             @Override
-            public void onLoaded(EnvelopeFetchFeeds eff) {
+            public void onLoaded(final EnvelopeFetchFeeds eff) {
                 if(eff != null) {
                     if(items != null) {
                         items.addAll(eff.getData());
@@ -39,6 +42,16 @@ public class FeedItemsRepoImpl implements FeedItemsRepository {
                 }
 
                 callback.onLoaded(new ArrayList<>(items));
+
+                // inserting into database ..
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(eff != null) {
+                            SQLUtils.insertNewFeeds(eff.getData());
+                        }
+                    }
+                }).run();
             }
         });
     }
@@ -47,21 +60,42 @@ public class FeedItemsRepoImpl implements FeedItemsRepository {
     public void refreshFeedsFromRemote(final LoadFeedsCallback callback) {
         mFeedsServiceApi.loadFeed(0, new FeedsServiceApi.LoadFeedsServiceCallback() {
             @Override
-            public void onLoaded(EnvelopeFetchFeeds eff) {
+            public void onLoaded(final EnvelopeFetchFeeds eff) {
                 if(eff != null) {
                     // Updating the list from the repo ..
                     items = eff.getData();
                 }
 
                 callback.onLoaded(new ArrayList<>(items));
+
+                // clearing database and then inserting the new data ...
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(eff != null) {
+                            if (SQLUtils.flushLocalFeeds()) {
+                                SQLUtils.insertNewFeeds(eff.getData());
+                            }
+                        }
+                    }
+                }).run();
             }
         });
     }
 
 
     @Override
-    public void loadFeedsFromLocal(LoadFeedsCallback callback) {
+    public void loadFeedsFromLocal(final LoadFeedsCallback callback) {
         // TODO - complete the code to implement it using SQL ..
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                final List<FeedItem> it = SQLUtils.fetchFeedItems();
+                callback.onLoaded(new ArrayList<>(it));
+                items = it;
+
+            }
+        }).run();
     }
 
     @Override

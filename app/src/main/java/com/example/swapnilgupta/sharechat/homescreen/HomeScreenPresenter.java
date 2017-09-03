@@ -35,7 +35,21 @@ public class HomeScreenPresenter implements HomeScreenContract.UserActionListene
 
     @Override
     public void loadItems() {
+        if(isOccupied) {
+            return;
+        }
+        isOccupied = true;
 
+        if(isSubscribedToView) {
+            mView.setProgressIndicator(true);
+        }
+
+        mRepository.loadFeedsFromLocal(new FeedItemsRepository.LoadFeedsCallback() {
+            @Override
+            public void onLoaded(List<FeedItem> itemList) {
+                postLoadItems(itemList);
+            }
+        });
     }
 
     @Override

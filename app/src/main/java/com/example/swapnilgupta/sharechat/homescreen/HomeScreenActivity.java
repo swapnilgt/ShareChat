@@ -68,18 +68,14 @@ public class HomeScreenActivity extends AppCompatActivity implements HomeScreenC
         mUserActionListener = new HomeScreenPresenter(this,
                 new FeedItemsRepoImpl(new FeedsServiceApiImpl()));
 
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
         mUserActionListener.subscribe();
-        mUserActionListener.refreshItems();
+        mUserActionListener.loadItems();
+
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onDestroy() {
+        super.onDestroy();
         mUserActionListener.unsubscribe();
     }
 
