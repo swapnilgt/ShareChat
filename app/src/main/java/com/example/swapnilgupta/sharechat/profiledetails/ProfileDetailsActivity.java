@@ -14,6 +14,7 @@ import com.example.swapnilgupta.sharechat.R;
 import com.example.swapnilgupta.sharechat.api.FeedsServiceApiImpl;
 import com.example.swapnilgupta.sharechat.data.FeedItemsRepoImpl;
 import com.example.swapnilgupta.sharechat.models.FeedItem;
+import com.example.swapnilgupta.sharechat.retrofit.models.FeedItemUpdateReq;
 
 public class ProfileDetailsActivity extends AppCompatActivity implements ProfileDetailsContract.View {
 
@@ -55,12 +56,13 @@ public class ProfileDetailsActivity extends AppCompatActivity implements Profile
         mSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mSessionFeedItem.setAuthor_dob(mDob.getText().toString());
-                mSessionFeedItem.setAuthor_gender(mGender.getText().toString());
-                mSessionFeedItem.setAuthor_status(mStatus.getText().toString());
-                mSessionFeedItem.setAuthor_contact(mContact.getText().toString());
+                final FeedItemUpdateReq f = new FeedItemUpdateReq(mSessionFeedItem);
+                f.setAuthor_dob(mDob.getText().toString());
+                f.setAuthor_gender(mGender.getText().toString());
+                f.setAuthor_status(mStatus.getText().toString());
+                f.setAuthor_contact(mContact.getText().toString());
 
-                mUserActionListener.updateUserDetails(mSessionFeedItem);
+                mUserActionListener.updateUserDetails(f);
             }
         });
 

@@ -7,6 +7,8 @@ import com.example.swapnilgupta.sharechat.retrofit.FeedsServiceRESTClient;
 import com.example.swapnilgupta.sharechat.retrofit.FetchRequest;
 import com.example.swapnilgupta.sharechat.retrofit.UpdateRequest;
 import com.example.swapnilgupta.sharechat.retrofit.models.EnvelopeFetchFeeds;
+import com.example.swapnilgupta.sharechat.retrofit.models.EnvelopeUpdateFeed;
+import com.example.swapnilgupta.sharechat.retrofit.models.FeedItemUpdateReq;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -61,17 +63,23 @@ public class FeedsServiceApiImpl implements FeedsServiceApi {
     }
 
     @Override
-    public void updateFeedItem(FeedItem item, final UpdateFeedServiceCallback callback) {
+    public void updateFeedItem(FeedItemUpdateReq item, final UpdateFeedServiceCallback callback) {
 
-        Call<FeedItem> call = mClient.updateFeedItem(new UpdateRequest(item));
-        call.enqueue(new Callback<FeedItem>() {
+        Log.d(TAG, "Running update on: " + new UpdateRequest(item));
+
+        Call<EnvelopeUpdateFeed> call = mClient.updateFeedItem(new UpdateRequest(item));
+        call.enqueue(new Callback<EnvelopeUpdateFeed>() {
             @Override
-            public void onResponse(Call<FeedItem> call, Response<FeedItem> response) {
-                callback.onUpdate(true, response.body());
+            public void onResponse(Call<EnvelopeUpdateFeed> call, Response<EnvelopeUpdateFeed> response) {
+                if(response.body().isSuccess()) {
+                    callback.onUpdate(true, response.body().getData());
+                } else {
+                    callback.onUpdate(false, null);
+                }
             }
 
             @Override
-            public void onFailure(Call<FeedItem> call, Throwable t) {
+            public void onFailure(Call<EnvelopeUpdateFeed> call, Throwable t) {
                 callback.onUpdate(false, null);
             }
         });

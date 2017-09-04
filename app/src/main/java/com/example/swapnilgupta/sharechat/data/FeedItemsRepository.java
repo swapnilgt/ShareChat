@@ -1,6 +1,7 @@
 package com.example.swapnilgupta.sharechat.data;
 
 import com.example.swapnilgupta.sharechat.models.FeedItem;
+import com.example.swapnilgupta.sharechat.retrofit.models.FeedItemUpdateReq;
 
 import java.util.List;
 
@@ -25,7 +26,7 @@ public interface FeedItemsRepository {
         void onUpdateFeed(boolean success, FeedItem item);
     }
 
-    void updateFeed(FeedItem item, UpdateFeedsCallback callback);
+    void updateFeed(FeedItemUpdateReq item, UpdateFeedsCallback callback);
 
     interface LoadFeedCallback {
         void onLoaded(FeedItem item);

@@ -2,6 +2,7 @@ package com.example.swapnilgupta.sharechat.profiledetails;
 
 import com.example.swapnilgupta.sharechat.data.FeedItemsRepository;
 import com.example.swapnilgupta.sharechat.models.FeedItem;
+import com.example.swapnilgupta.sharechat.retrofit.models.FeedItemUpdateReq;
 
 /**
  * Created by swapnilgupta on 03/09/2017.
@@ -23,7 +24,7 @@ public class ProfileDetailsPresenter implements ProfileDetailsContract.UserActio
 
 
     @Override
-    public void updateUserDetails(FeedItem item) {
+    public void updateUserDetails(FeedItemUpdateReq item) {
         mFeedsItemsRepository.updateFeed(item, new FeedItemsRepository.UpdateFeedsCallback() {
             @Override
             public void onUpdateFeed(boolean success, FeedItem item) {

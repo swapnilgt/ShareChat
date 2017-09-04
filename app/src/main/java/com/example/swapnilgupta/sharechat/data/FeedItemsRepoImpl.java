@@ -6,6 +6,7 @@ import com.example.swapnilgupta.sharechat.api.FeedsServiceApi;
 import com.example.swapnilgupta.sharechat.models.FeedItem;
 import com.example.swapnilgupta.sharechat.profiledetails.ProfileDetailsContract;
 import com.example.swapnilgupta.sharechat.retrofit.models.EnvelopeFetchFeeds;
+import com.example.swapnilgupta.sharechat.retrofit.models.FeedItemUpdateReq;
 import com.example.swapnilgupta.sharechat.sqlite.SQLUtils;
 
 import java.util.ArrayList;
@@ -119,7 +120,7 @@ public class FeedItemsRepoImpl implements FeedItemsRepository {
     }
 
     @Override
-    public void updateFeed(FeedItem item, final UpdateFeedsCallback callback) {
+    public void updateFeed(FeedItemUpdateReq item, final UpdateFeedsCallback callback) {
         mFeedsServiceApi.updateFeedItem(item, new FeedsServiceApi.UpdateFeedServiceCallback() {
             @Override
             public void onUpdate(boolean success, FeedItem item) {
